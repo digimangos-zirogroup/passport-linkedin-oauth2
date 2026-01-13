@@ -7,8 +7,8 @@ nock.disableNetConnect();
 
 describe('LinkedIn Strategy', function () {
   const origin = 'https://api.linkedin.com';
-
-  const profilePath = '/v2/userinfo?oauth2_access_token=whatever';
+  const profilePath = '/rest/identityMe?oauth2_access_token=whatever';
+  const linkedInVersion = Strategy.DEFAULT_LINKEDIN_VERSION;
 
   it('sanity check', function (done) {
     const options = {
@@ -18,13 +18,7 @@ describe('LinkedIn Strategy', function () {
     const st = new Strategy(options, function () {});
 
     st.name.should.eql('linkedin');
-
-    const decodedProfilePath = decodeURIComponent(profilePath).replace(
-      '?oauth2_access_token=whatever',
-      ''
-    );
-
-    st.profileUrl.should.eql(`${origin}${decodedProfilePath}`);
+    st.profileUrl.should.eql(Strategy.DEFAULT_PROFILE_URL);
 
     done();
   });
@@ -32,7 +26,10 @@ describe('LinkedIn Strategy', function () {
   describe('userProfile(accessToken, done)', function () {
     context('with profile and email scope', function () {
       beforeEach(function () {
-        this.scope = nock(origin).get(profilePath).reply(200, profileExample);
+        this.scope = nock(origin)
+          .matchHeader('LinkedIn-Version', linkedInVersion)
+          .get(profilePath)
+          .reply(200, profileExample);
       });
 
       afterEach(function () {
@@ -58,6 +55,7 @@ describe('LinkedIn Strategy', function () {
             'https://media.licdn-ei.com/dms/image/C5F03AQHqK8v7tB1HCQ/profile-displayphoto-shrink_100_100/0/'
           );
           profile.email.should.eql('doe@email.com');
+          profile.profileUrl.should.eql('https://www.linkedin.com/in/johndoe');
 
           done();
         });
@@ -66,7 +64,10 @@ describe('LinkedIn Strategy', function () {
 
     context('when error occurs', function () {
       beforeEach(function () {
-        this.scope = nock(origin).get(profilePath).reply(500);
+        this.scope = nock(origin)
+          .matchHeader('LinkedIn-Version', linkedInVersion)
+          .get(profilePath)
+          .reply(500);
       });
 
       afterEach(function () {

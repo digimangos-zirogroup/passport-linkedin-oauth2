@@ -1,10 +1,33 @@
 {
-  "sub": "782bbtaQ",
-  "name": "John Doe",
-  "given_name": "John",
-  "family_name": "Doe",
-  "picture": "https://media.licdn-ei.com/dms/image/C5F03AQHqK8v7tB1HCQ/profile-displayphoto-shrink_100_100/0/",
-  "locale": "en-US",
-  "email": "doe@email.com",
-  "email_verified": true
+  "id": "urn:li:person:782bbtaQ",
+  "basicInfo": {
+    "firstName": {
+      "localized": {
+        "en_US": "John"
+      },
+      "preferredLocale": {
+        "language": "en",
+        "country": "US"
+      }
+    },
+    "lastName": {
+      "localized": {
+        "en_US": "Doe"
+      },
+      "preferredLocale": {
+        "language": "en",
+        "country": "US"
+      }
+    },
+    "primaryEmailAddress": "doe@email.com",
+    "profileUrl": "https://www.linkedin.com/in/johndoe",
+    "profilePicture": {
+      "croppedImage": {
+        "downloadUrl": "https://media.licdn-ei.com/dms/image/C5F03AQHqK8v7tB1HCQ/profile-displayphoto-shrink_100_100/0/",
+        "width": 100,
+        "height": 100
+      }
+    }
+  },
+  "lastRefreshedAt": 1760000000000
 }

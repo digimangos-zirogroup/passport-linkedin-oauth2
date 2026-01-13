@@ -60,6 +60,20 @@ app.get(
 
 See [this](https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2) for details on LinkedIn API.
 
+### Profile data source
+
+This strategy now pulls profile data from LinkedIn's REST `identityMe` endpoint by default, including the recommended `LinkedIn-Version: 202507` header. You can override either value when constructing the strategy:
+
+```javascript
+new LinkedInStrategy({
+  profileUrl: 'https://api.linkedin.com/rest/identityMe',
+  linkedinVersion: '202510',
+  // ...
+});
+```
+
+If LinkedIn releases a newer API version, set `linkedinVersion` accordingly to opt in without waiting for a package update.
+
 ## Auto-handle `state` param
 
 The `state` param is used to prevent CSRF attacks, and is [required by the LinkedIn API](https://developer.linkedin.com/documents/authentication). You can ask Passport to handle the sending and validating of the `state` parameter by passing `state: true` as an option to the strategy:
